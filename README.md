@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Hibrit Vakit
 
-## Getting Started
+Dual-source prayer times app that displays prayer times from both **Fazilet Takvimi** and **Diyanet** to help users pray with caution.
 
-First, run the development server:
+## Why Two Sources?
+
+Fazilet and Diyanet use different calculation methods for prayer times. The difference is usually a few minutes, but can be more significant for Fajr (Imsak/Sabah) and Isha (Yatsi). Praying during the gap between the two sources may be problematic.
+
+- **Fazilet** provides the **entry time** (temkinli vakit -- conservative, later)
+- **Diyanet** provides the **exit time** (earlier)
+- The gap between them is the **caution zone**
+
+## Features
+
+- Prayer times from two sources displayed side by side
+- Current prayer highlighted with countdown timers
+- Namaz entry/exit countdowns with caution zone warnings
+- Cross-day display (yesterday's Yatsi / tomorrow's Imsak at day boundaries)
+- Date navigation (yesterday / today / tomorrow)
+- Dark and light theme
+- Turkish and English language support
+- Location persistence across sessions
+
+## Current Limitations
+
+- **Turkey only** -- other countries are disabled pending testing for edge cases (e.g., high-latitude locations with missing Isha times)
+- **3-day navigation** -- Fazilet API only returns yesterday/today/tomorrow
+
+## Planned Features
+
+- **Bayram Vakitleri** -- mark Eid dates on the calendar and display Eid prayer times
+- **International support** -- expand to other countries after proper testing for high-latitude edge cases
+- **Mobile app** -- native mobile app sharing the core logic
+
+## Data Sources
+
+Prayer times data is sourced from:
+
+- **[Fazilet Takvimi](https://fazilettakvimi.com)** -- prayer times and calendar data. All rights belong to Fazilet Publications.
+- **[Diyanet](https://diyanet.gov.tr)** (via [EzanVakti API](https://ezanvakti.emushaf.net)) -- prayer times from the Presidency of Religious Affairs.
+
+This application is **not** an official product of Fazilet or Diyanet. It is an independent tool that aggregates publicly accessible prayer time data for personal use.
+
+## Tech Stack
+
+- **Next.js 16** (App Router, TypeScript, Tailwind CSS v4)
+
+## Development
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+To unlock international support, edit `ALLOWED_COUNTRY_IDS` in `src/lib/config.ts`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## License
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+MIT License -- see [LICENSE](LICENSE) for details.
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Prayer times data belongs to their respective sources (Fazilet Takvimi, Diyanet). This license covers only the application code.

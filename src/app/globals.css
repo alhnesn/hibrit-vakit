@@ -1,26 +1,125 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:is(.dark *));
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #f7f3ea;
+  --card: #ffffff;
+  --card-border: #e2ddd0;
+  --text: #2c2417;
+  --text-secondary: #7a7060;
+  --text-muted: #a8a090;
+  --primary: #0d6b5e;
+  --primary-soft: #e8f5f0;
+  --primary-text: #0a5a4e;
+  --accent: #c49a2a;
+  --accent-soft: #fdf6e3;
+  --danger: #b91c1c;
+  --danger-soft: #fef2f2;
+  --countdown-bg: linear-gradient(135deg, #0d6b5e 0%, #0a5a4e 50%, #085045 100%);
+  --uncertain-bg: #fef3c7;
+  --uncertain-text: #92400e;
+  --select-bg: #ffffff;
+  --select-border: #d6d0c4;
+  --divider: #e8e2d6;
+  --shadow: 0 4px 24px rgba(44, 36, 23, 0.08), 0 1px 3px rgba(44, 36, 23, 0.04);
+  --shadow-lg: 0 8px 40px rgba(44, 36, 23, 0.12), 0 2px 8px rgba(44, 36, 23, 0.06);
+}
+
+.dark {
+  --bg: #0f1117;
+  --card: #1a1e27;
+  --card-border: #2a2f3a;
+  --text: #e8e4dc;
+  --text-secondary: #9a9488;
+  --text-muted: #6a6458;
+  --primary: #34d399;
+  --primary-soft: rgba(52, 211, 153, 0.08);
+  --primary-text: #34d399;
+  --accent: #d4a843;
+  --accent-soft: rgba(212, 168, 67, 0.08);
+  --danger: #f87171;
+  --danger-soft: rgba(248, 113, 113, 0.06);
+  --countdown-bg: linear-gradient(135deg, #14332a 0%, #0f2922 50%, #0c201b 100%);
+  --uncertain-bg: rgba(251, 191, 36, 0.1);
+  --uncertain-text: #fbbf24;
+  --select-bg: #22262e;
+  --select-border: #353a44;
+  --divider: #2a2f3a;
+  --shadow: 0 4px 24px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-background: var(--bg);
+  --color-foreground: var(--text);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-display: var(--font-amiri);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Smooth transitions for theme changes */
+*, *::before, *::after {
+  transition-property: background-color, border-color, box-shadow;
+  transition-duration: 0.2s;
+  transition-timing-function: ease;
+}
+
+/* Override for elements that shouldn't transition (countdown, etc) */
+.no-transition, .no-transition * {
+  transition: none !important;
+}
+
+select {
+  appearance: auto;
+  background: var(--select-bg);
+  border-color: var(--select-border);
+  color: var(--text);
+}
+
+select option {
+  background: var(--select-bg);
+  color: var(--text);
+}
+
+/* Decorative top border gradient */
+.card-accent-top {
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--primary), var(--accent));
+}
+
+/* Geometric pattern strip */
+.geo-strip {
+  height: 2px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--primary) 0px,
+    var(--primary) 8px,
+    transparent 8px,
+    transparent 12px,
+    var(--accent) 12px,
+    var(--accent) 14px,
+    transparent 14px,
+    transparent 18px
+  );
+  opacity: 0.4;
+}
+
+/* Custom scrollbar for dark mode */
+.dark ::-webkit-scrollbar {
+  width: 6px;
+}
+.dark ::-webkit-scrollbar-track {
+  background: var(--card);
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: var(--card-border);
+  border-radius: 3px;
 }
