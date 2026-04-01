@@ -5,7 +5,7 @@ import { ALLOWED_COUNTRY_IDS, DEFAULT_DISTRICT_ID } from "@/lib/config";
 
 const cache = new Map<string, { data: FaziletResponse; ts: number }>();
 const CACHE_TTL = 3 * 60 * 60 * 1000;
-const MAX_CACHE_SIZE = 200;
+const MAX_CACHE_SIZE = 2000;
 
 export async function GET(request: NextRequest) {
   const params = request.nextUrl.searchParams;

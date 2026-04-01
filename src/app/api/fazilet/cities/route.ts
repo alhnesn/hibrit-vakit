@@ -5,7 +5,7 @@ import { ALLOWED_COUNTRY_IDS, DEFAULT_COUNTRY_ID } from "@/lib/config";
 
 const cache = new Map<string, { data: FaziletCity[]; ts: number }>();
 const CACHE_TTL = 24 * 60 * 60 * 1000;
-const MAX_CACHE_SIZE = 50;
+const MAX_CACHE_SIZE = 500;
 
 export async function GET(request: NextRequest) {
   const params = request.nextUrl.searchParams;

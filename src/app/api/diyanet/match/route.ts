@@ -5,7 +5,7 @@ import type { EzanVaktiPrayerTime } from "@/lib/types";
 // In-memory cache: key → { data, timestamp }
 const cache = new Map<string, { data: EzanVaktiPrayerTime[]; ts: number }>();
 const CACHE_TTL = 6 * 60 * 60 * 1000; // 6 hours
-const MAX_CACHE_SIZE = 100;
+const MAX_CACHE_SIZE = 1000;
 
 export async function GET(request: NextRequest) {
   const params = request.nextUrl.searchParams;
