@@ -20,8 +20,28 @@ const amiri = Amiri({
 });
 
 export const metadata: Metadata = {
-  title: "Namaz Vakti",
+  title: "Namaz Vakitleri",
   description: "Hibrit namaz vakitleri — Fazilet & Diyanet",
+  metadataBase: new URL("https://hibritvakit.com"),
+  openGraph: {
+    title: "Hibrit Vakit — Namaz Vakitleri",
+    description:
+      "Fazilet ve Diyanet vakitlerini bir arada kullanan ihtiyatlı namaz vakitleri",
+    url: "https://hibritvakit.com",
+    siteName: "Hibrit Vakit",
+    locale: "tr_TR",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Hibrit Vakit — Namaz Vakitleri",
+    description:
+      "Fazilet ve Diyanet vakitlerini bir arada kullanan ihtiyatlı namaz vakitleri",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
@@ -39,6 +59,27 @@ export default function RootLayout({
         <script
           dangerouslySetInnerHTML={{
             __html: `try{if(localStorage.getItem("theme")==="dark"){document.documentElement.classList.add("dark")}}catch(e){}`,
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebApplication",
+              name: "Hibrit Vakit",
+              url: "https://hibritvakit.com",
+              description:
+                "Fazilet ve Diyanet vakitlerini bir arada kullanan ihtiyatlı namaz vakitleri",
+              applicationCategory: "LifestyleApplication",
+              operatingSystem: "All",
+              inLanguage: ["tr", "en"],
+              offers: {
+                "@type": "Offer",
+                price: "0",
+                priceCurrency: "USD",
+              },
+            }),
           }}
         />
       </head>
