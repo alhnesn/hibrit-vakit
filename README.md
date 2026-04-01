@@ -1,5 +1,7 @@
 # Hibrit Vakit
 
+**[hibritvakit.com](https://hibritvakit.com)**
+
 Dual-source prayer times app that displays prayer times from both **Fazilet Takvimi** and **Diyanet** to help users pray with caution.
 
 ## Why Two Sources?
