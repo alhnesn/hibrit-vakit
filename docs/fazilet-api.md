@@ -1,16 +1,16 @@
 # Fazilet Takvimi API
 
-Fazilet Takvimi (fazilettakvimi.com) does **not** have a publicly documented API. The endpoints below were reverse-engineered from their React web app at `namaz-vakitleri.fazilettakvimi.com`. The backend is an Express.js server behind Cloudflare.
+Fazilet Takvimi (fazilettakvimi.com) does **not** have a publicly documented API. The endpoints below were reverse-engineered from their React web app at `namaz-vakitleri.fazilettakvimi.com`. The backend is an Express.js server behind Cloudflare, served from `backend.fazilettakvimi.com`.
 
 No other open-source projects are known to document or use this API.
 
 ## Base URL
 
 ```
-https://namaz-vakitleri.fazilettakvimi.com/api/cms
+https://backend.fazilettakvimi.com/content/public
 ```
 
-Internally, `/api/cms` rewrites to `/content/public/` on the backend.
+This is the host the official web app calls directly. The older proxy path `https://namaz-vakitleri.fazilettakvimi.com/api/cms` (which rewrote to `/content/public/`) stopped working in August 2026 and now returns `404 Not Found` from openresty; `https://fazilettakvimi.com/api/cms` still proxies to the backend but is not what the app uses.
 
 ## Authentication
 
@@ -42,7 +42,7 @@ Returns prayer times, location data, calendar info, and the full country/city/di
 **Example:**
 
 ```
-GET /api/cms/daily?districtId=31&lang=1
+GET /content/public/daily?districtId=31&lang=1
 ```
 
 **Response shape:**
@@ -145,7 +145,7 @@ Returns the list of cities for a given country.
 **Example:**
 
 ```
-GET /api/cms/cities-by-country?districtId=1/&lang=1
+GET /content/public/cities-by-country?districtId=1/&lang=1
 ```
 
 **Response:**

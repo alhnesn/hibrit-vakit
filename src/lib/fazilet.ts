@@ -1,6 +1,6 @@
 import type { FaziletResponse, FaziletCity, PrayerTimesMap, PrayerName } from "./types";
 
-const BASE_URL = "https://namaz-vakitleri.fazilettakvimi.com/api/cms";
+const BASE_URL = "https://backend.fazilettakvimi.com/content/public";
 
 export async function getFaziletDaily(
   districtId: number,
