@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Amiri } from "next/font/google";
 import "./globals.css";
@@ -20,8 +20,21 @@ const amiri = Amiri({
 });
 
 export const metadata: Metadata = {
-  title: "Namaz Vakti",
+  title: "Hibrit Vakit",
   description: "Hibrit namaz vakitleri — Fazilet & Diyanet",
+  applicationName: "Hibrit Vakit",
+  appleWebApp: {
+    capable: true,
+    title: "Hibrit Vakit",
+    statusBarStyle: "default",
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#0d6b5e" },
+    { media: "(prefers-color-scheme: dark)", color: "#0f1117" },
+  ],
 };
 
 export default function RootLayout({
