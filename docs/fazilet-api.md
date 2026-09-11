@@ -192,9 +192,10 @@ Istanbul has ~50 district IDs (Adalar=1489, Besiktas=1498, etc.).
 ## How This Project Uses It
 
 - **Called server-side only** from Next.js API routes (bypasses CORS).
-- **`/api/fazilet/daily`** route wraps the Fazilet `/daily` endpoint with an in-memory LRU cache (3-hour TTL, max 2000 entries).
+- **`/api/fazilet/daily`** route wraps the Fazilet `/daily` endpoint with an in-memory stale-while-revalidate cache (3-hour TTL, max 2000 entries, see `src/lib/stale-cache.ts`). An expired entry that still contains today's date is returned immediately with the header `X-Cache: stale` while one background refresh runs; a failed refresh is not retried for 30 s. Pass `fresh=1` to wait for the refresh instead (the page does this after receiving a stale response and swaps in the new data only if it differs).
 - **`/api/fazilet/cities`** route wraps `/cities-by-country` with a 24-hour TTL cache (max 500 entries).
-- On fetch failure, stale cache is returned as a fallback.
+- Upstream requests are aborted after 10 s (`UPSTREAM_TIMEOUT_MS`). Before this, a hung Fazilet server held every request open until Cloudflare's ~100 s origin timeout.
+- On fetch failure, stale cache is returned as a fallback (with `X-Cache: stale`); without any cache the route answers 502.
 - Prayer times are parsed by finding the matching `YYYY-MM-DD` entry in `vakitler`, extracting the first entry's `tarih`, and converting from UTC to local time using `toLocaleTimeString()` with the `bolge_saatdilimi` timezone.
 - Currently restricted to Turkey (country ID 1) via `ALLOWED_COUNTRY_IDS` config. Requests for other countries return 403.
 - Default location: Istanbul (districtId=31).

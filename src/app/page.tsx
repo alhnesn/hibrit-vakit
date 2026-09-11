@@ -134,7 +134,8 @@ export default function Home() {
       setLoading(true);
       setError(null);
       try {
-        const res = await fetch(`/api/fazilet/daily?districtId=${locationId}&lang=${lang}`);
+        const dailyUrl = `/api/fazilet/daily?districtId=${locationId}&lang=${lang}`;
+        const res = await fetch(dailyUrl);
 
         // If blocked (e.g., saved location from unsupported country), fall back to default
         if (res.status === 403 && locationId !== DEFAULT_DISTRICT_ID) {
@@ -152,6 +153,22 @@ export default function Home() {
         setSelectedCity(data.form.sehir_id);
         setSelectedDistrict(data.form.ilce_id !== data.form.sehir_id ? data.form.ilce_id : 0);
         setCities(data.sehirler);
+
+        // The server answers instantly from cache when it has an expired entry
+        // and refreshes upstream in the background. Ask for that fresh result
+        // and swap it in only if the times actually changed.
+        if (res.headers.get("x-cache") === "stale") {
+          fetch(`${dailyUrl}&fresh=1`)
+            .then(async (freshRes) => {
+              if (cancelled || !freshRes.ok || freshRes.headers.get("x-cache") !== "fresh") return;
+              const fresh: FaziletResponse = await freshRes.json();
+              if (cancelled || !fresh.success) return;
+              if (JSON.stringify(fresh) === JSON.stringify(data)) return;
+              setFazilet(fresh);
+              setCities(fresh.sehirler);
+            })
+            .catch(() => { /* keep showing the cached data */ });
+        }
 
         if (needDiyanet) {
           diyanetLocRef.current = locationId;
