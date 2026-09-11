@@ -5,11 +5,12 @@ import type {
   EzanVaktiPrayerTime,
   PrayerTimesMap,
 } from "./types";
+import { UPSTREAM_TIMEOUT_MS } from "./config";
 
 const BASE_URL = "https://ezanvakti.emushaf.net";
 
 export async function getEzanVaktiCountries(): Promise<EzanVaktiCountry[]> {
-  const res = await fetch(`${BASE_URL}/ulkeler`);
+  const res = await fetch(`${BASE_URL}/ulkeler`, { signal: AbortSignal.timeout(UPSTREAM_TIMEOUT_MS) });
   if (!res.ok) throw new Error(`EzanVakti countries error: ${res.status}`);
   return res.json();
 }
@@ -17,7 +18,7 @@ export async function getEzanVaktiCountries(): Promise<EzanVaktiCountry[]> {
 export async function getEzanVaktiCities(
   countryId: string
 ): Promise<EzanVaktiCity[]> {
-  const res = await fetch(`${BASE_URL}/sehirler/${countryId}`);
+  const res = await fetch(`${BASE_URL}/sehirler/${countryId}`, { signal: AbortSignal.timeout(UPSTREAM_TIMEOUT_MS) });
   if (!res.ok) throw new Error(`EzanVakti cities error: ${res.status}`);
   return res.json();
 }
@@ -25,7 +26,7 @@ export async function getEzanVaktiCities(
 export async function getEzanVaktiDistricts(
   cityId: string
 ): Promise<EzanVaktiDistrict[]> {
-  const res = await fetch(`${BASE_URL}/ilceler/${cityId}`);
+  const res = await fetch(`${BASE_URL}/ilceler/${cityId}`, { signal: AbortSignal.timeout(UPSTREAM_TIMEOUT_MS) });
   if (!res.ok) throw new Error(`EzanVakti districts error: ${res.status}`);
   return res.json();
 }
@@ -33,7 +34,7 @@ export async function getEzanVaktiDistricts(
 export async function getEzanVaktiTimes(
   districtId: string
 ): Promise<EzanVaktiPrayerTime[]> {
-  const res = await fetch(`${BASE_URL}/vakitler/${districtId}`);
+  const res = await fetch(`${BASE_URL}/vakitler/${districtId}`, { signal: AbortSignal.timeout(UPSTREAM_TIMEOUT_MS) });
   if (!res.ok) throw new Error(`EzanVakti times error: ${res.status}`);
   return res.json();
 }

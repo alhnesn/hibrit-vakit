@@ -1,13 +1,15 @@
 import type { FaziletResponse, FaziletCity, PrayerTimesMap, PrayerName } from "./types";
+import { UPSTREAM_TIMEOUT_MS } from "./config";
 
-const BASE_URL = "https://backend.fazilettakvimi.com/content/public";
+// FAZILET_BASE_URL lets a local mock stand in for the real backend.
+const BASE_URL = process.env.FAZILET_BASE_URL ?? "https://backend.fazilettakvimi.com/content/public";
 
 export async function getFaziletDaily(
   districtId: number,
   lang: number = 1
 ): Promise<FaziletResponse> {
   const url = `${BASE_URL}/daily?districtId=${districtId}&lang=${lang}`;
-  const res = await fetch(url);
+  const res = await fetch(url, { signal: AbortSignal.timeout(UPSTREAM_TIMEOUT_MS) });
   if (!res.ok) throw new Error(`Fazilet API error: ${res.status}`);
   return res.json();
 }
@@ -17,7 +19,7 @@ export async function getFaziletCities(
   lang: number = 1
 ): Promise<FaziletCity[]> {
   const url = `${BASE_URL}/cities-by-country?districtId=${countryId}/&lang=${lang}`;
-  const res = await fetch(url);
+  const res = await fetch(url, { signal: AbortSignal.timeout(UPSTREAM_TIMEOUT_MS) });
   if (!res.ok) throw new Error(`Fazilet cities API error: ${res.status}`);
   return res.json();
 }
